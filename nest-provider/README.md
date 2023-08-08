@@ -1,73 +1,157 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## provider注入方式
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 提供类注入
+```javascript
+import { AppService } from './app.service';
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+@Module({
+  providers: [
+    // 1. 简写
+    AppService,
+    // 2. 简写的实际全部
+    { provide: AppService, useClass: AppService }
+  ]
+})
 
-## Description
+// 注入方式
+// 1. 构造函数注入
+import { AppService } from './app.service';
+constructor(
+    private readonly appService: AppService,
+) {}
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+// 2. 属性注入
+@Inject(AppService)
+private readonly appServiceInject: AppService;
 ```
 
-## Running the app
+## 提供类注入但是provide的token为字符串
+```javascript
+import { AppService } from './app.service';
 
-```bash
-# development
-$ npm run start
+@Module({
+  providers: [
+    { provide: 'app_service', useClass: AppService }
+  ]
+})
 
-# watch mode
-$ npm run start:dev
+// 注入方式
+// 1. 构造函数注入
+import { AppService } from './app.service';
+constructor(
+    // 如果 token 是字符串的话，注入的时候就要用 @Inject 手动指定注入对象的 token 了
+    @Inject('app_service') private readonly appService: AppService,
+) {}
 
-# production mode
-$ npm run start:prod
+// 2. 属性注入
+@Inject('app_service')
+private readonly appServiceInject: AppService;
 ```
 
-## Test
+### 注入固定值
+```javascript
+@Module({
+  providers: [
+    // 注入值
+    {
+      provide: 'person',
+      useValue: {
+        name: 'huang',
+        age: 17,
+      },
+    },
+  ]
+})
+// 1. 构造函数注入
+import { AppService } from './app.service';
+constructor(
+    // 如果 token 是字符串的话，注入的时候就要用 @Inject 手动指定注入对象的 token 了
+    @Inject('person') private readonly person: { name: string; age: number },
+) {}
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+// 2. 属性注入
+@Inject('person')
+private readonly person: { name: string; age: number };
+// 
 ```
 
-## Support
+### 注入useFactory返回的固定值
+```javascript
+@Module({
+  providers: [
+    // 注入值
+    {
+      provide: 'person1',
+      useFactory() {
+        return {
+          name: 'huang',
+          age: 17,
+        }
+      }
+    },
+  ]
+})
+// 1. 构造函数注入
+import { AppService } from './app.service';
+constructor(
+    // 如果 token 是字符串的话，注入的时候就要用 @Inject 手动指定注入对象的 token 了
+    @Inject('person1') private readonly person1: { name: string; age: number },
+) {}
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+// 2. 属性注入
+@Inject('person1')
+private readonly person1: { name: string; age: number };
+// 
+```
 
-## Stay in touch
+### useFactory也支持属性注入
+```javascript
+@Module({
+  providers: [
+    // 注入值
+    {
+      provide: 'person2',
+      // 注入已经在provider里面的person和AppService
+      inject: ['person1', AppService],
+      useFactory(person1: { name: string; age: number }, appService: AppService) {
+        return {
+          name: person1.name,
+          desc: appService.getHello(),
+        }
+      }
+    },
+  ]
+})
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 支持异步
+```javascript
+@Module({
+  providers: [
+    {
+      provide: 'person3',
+      async useFactory() {
+        await new Promisr((resolve) => {
+          setTimeout(resolve, 3000)
+        })
+        return {
+          name: 'person3',
+          age: 17
+        }
+      }
+    }
+  ]
+})
+```
 
-## License
-
-Nest is [MIT licensed](LICENSE).
+### 支持别名
+```javascript
+@Module({
+  providers: [
+    {
+      provide: 'person4',
+      useExisting: 'person3'
+    }
+  ]
+})
+```
