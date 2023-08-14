@@ -7,5 +7,6 @@
 - provider 初探 ✔
 - 全局模块和生命周期 ✔
 - 装饰器学习 ✔
+- ArgumentHost 和 ExecutionContext 初探 ✔
 
 课程地址: https://juejin.cn/book/7226988578700525605?utm_source=course_list
