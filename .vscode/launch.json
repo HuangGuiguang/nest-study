@@ -4,6 +4,26 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        // custom-decorator
+        {
+            "name": "Launch custom-decorator via npm",
+            "request": "launch",
+            // "runtimeArgs": [
+            //     "run",
+            //     "start:dev"
+            // ],
+            "runtimeExecutable": "npm",
+            "args": [
+                "run",
+                "start:dev"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/custom-decorator"
+        },
         // argument-host
         {
             "name": "Launch argument-host via npm",
