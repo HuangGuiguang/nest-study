@@ -11,5 +11,6 @@
 - 自定义装饰器学习 ✔
 - Module 和 Provider 的循环依赖问题 ✔
 - 动态Module创建 ✔
+- 处理网络请求切换为fastify ✔
 
 课程地址: https://juejin.cn/book/7226988578700525605?utm_source=course_list
