@@ -10,5 +10,6 @@
 - ArgumentHost 和 ExecutionContext 初探 ✔
 - 自定义装饰器学习 ✔
 - Module 和 Provider 的循环依赖问题 ✔
+- 动态Module创建 ✔
 
 课程地址: https://juejin.cn/book/7226988578700525605?utm_source=course_list

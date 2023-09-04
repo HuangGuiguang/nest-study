@@ -5,6 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "dynamic-module",
+            "request": "launch",
+            "runtimeArgs": [
+                "run",
+                "start:dev"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/dynamic-module"
+        },
+        {
             "name": "module-test",
             "request": "launch",
             "runtimeArgs": [
@@ -113,7 +128,7 @@
             ],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/nest-ioc"
-        },        
+        },
         {
             "name": "Attach",
             "port": 9229,
