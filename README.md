@@ -13,5 +13,6 @@
 - 动态Module创建 ✔
 - 处理网络请求切换为fastify ✔
 - middleware ✔
+- pipe和自定义pipe ✔
 
 课程地址: https://juejin.cn/book/7226988578700525605?utm_source=course_list
