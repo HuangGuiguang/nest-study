@@ -69,3 +69,82 @@ getCustomPire(@Query('custom', AaaPipe) custom: string) {
     return custom;
 }
 ```
+
+# post请求参数Pipe ValidationPipe
+```js
+// dto格式定义
+import { IsInt } from 'class-validator';
+
+export class CreateAaaDto {
+  name: string;
+  // 装饰器不用分号的
+  @IsInt()
+  age: number;
+  hobbies: Array<string>;
+}
+```
+```js
+// 请求中使用
+@Post()
+// 单个请求设置Validation
+create(@Body(new ValidationPipe()) createAaaDto: CreateAaaDto): CreateAaaDto {
+    console.log(createAaaDto);
+    return createAaaDto;
+}
+```
+
+# 全局设置ValidationPipe
+```js
+// app.module.ts
+providers: [
+    AppService,
+    // 全局注入ValidationPipe
+    {
+        provide: APP_PIPE,
+        useClass: ValidationPipe,
+    },
+]
+```
+
+```js
+// 请求中就不用写了
+@Post()
+create(@Body() createAaaDto: CreateAaaDto): CreateAaaDto {
+    console.log(createAaaDto);
+    return createAaaDto;
+}
+```
+
+# 更多Validation设置
+```js
+export class CreatePppDto {
+  @Length(10, 20)
+  title: string;
+
+  @Contains('hello')
+  text: string;
+
+  @IsInt()
+  @Min(0)
+  @Max(10)
+  rating: number;
+
+  @IsEmail()
+  email: string;
+
+  @IsFQDN() // 域名
+  @IsOptional()
+  site: string;
+}
+```
+
+# 自定义Validation返回的错误消息
+```js
+@Length(10, 20, {
+    message(args) {
+        console.log(args);
+        // 这样返回的消息就是xxx了，也可以拿到args中相关的参数自己组合返回的错误消息
+        return 'xxx';
+    },
+})
+```

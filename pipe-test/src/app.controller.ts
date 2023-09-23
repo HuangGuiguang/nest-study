@@ -29,11 +29,14 @@ export class AppController {
           // 优先级更高一点
           throw new HttpException('sorry ' + error, HttpStatus.BAD_REQUEST);
         },
+        optional: true,
       }),
     )
     aa: string,
-  ): string {
-    return aa + 1;
+  ): object {
+    return {
+      total: aa + 1,
+    };
   }
 
   @Get('ee')
