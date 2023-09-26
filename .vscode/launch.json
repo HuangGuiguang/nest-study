@@ -5,6 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "nest-multer-upload",
+            "request": "launch",
+            "runtimeArgs": [
+                "run",
+                "start:dev"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/nest-multer-upload"
+        },
+        {
             "name": "pipe-test",
             "request": "launch",
             "runtimeArgs": [

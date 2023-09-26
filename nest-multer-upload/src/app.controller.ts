@@ -18,6 +18,7 @@ import {
   AnyFilesInterceptor,
 } from '@nestjs/platform-express';
 import { storage } from './custom.storage';
+import { MyFileValidator } from './myFileValidator';
 
 @Controller()
 export class AppController {
@@ -115,7 +116,8 @@ export class AppController {
     @UploadedFile(
       new ParseFilePipe({
         validators: [
-          new MaxFileSizeValidator({ maxSize: 1000000 }),
+          //   new MaxFileSizeValidator({ maxSize: 1000000 }),
+          new MyFileValidator({ maxSize: 1000000 }),
           new FileTypeValidator({ fileType: 'image/jpeg' }),
         ],
       }),
