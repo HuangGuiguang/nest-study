@@ -8,7 +8,7 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    // 不同类型的log
+    // 不同类型的log, test pm2 change
     this.logger.debug('debug');
     this.logger.error('error');
     this.logger.fatal('fatal');
