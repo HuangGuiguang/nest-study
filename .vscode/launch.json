@@ -5,6 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "logger-test",
+            "request": "launch",
+            "runtimeArgs": [
+                "run",
+                "start:dev"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/logger-test"
+        },
+        {
             "name": "nest-multer-upload",
             "request": "launch",
             "runtimeArgs": [

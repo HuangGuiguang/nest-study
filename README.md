@@ -16,5 +16,6 @@
 - pipe和自定义pipe ✔
 - multi初探 ✔
 - 在nest中使用multer ✔
+- log ✔
 
 课程地址: https://juejin.cn/book/7226988578700525605?utm_source=course_list
